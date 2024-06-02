@@ -93,6 +93,7 @@ class _LoginForm extends StatelessWidget {
             CustomTextFormField(
               label: 'Contraseña',
               obscureText: true,
+              onFieldSubmitted: (_) => loginForm.onFormSubmit(),
               onChanged: loginForm.onPasswordChange,
               errorMessage: loginForm.state.isFormPosted
                   ? loginForm.state.password.errorMessage
@@ -107,7 +108,10 @@ class _LoginForm extends StatelessWidget {
                     buttonColor: Colors.black,
                     onPressed: loginForm.state.isPosting
                         ? null
-                        : loginForm.onFormSubmit)),
+                        : () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            loginForm.onFormSubmit();
+                          })),
             const Spacer(flex: 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
