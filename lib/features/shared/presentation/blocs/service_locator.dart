@@ -6,5 +6,7 @@ GetIt getIt = GetIt.instance;
 
 void serviceLocatorInit() {
   getIt.registerSingleton(AuthBloc());
-  getIt.registerSingleton(RouterCubit());
+  getIt.registerSingleton(RouterCubit(
+    createRouter(getIt<AuthBloc>()),
+  ));
 }

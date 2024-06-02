@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:teslo_shop/features/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'package:teslo_shop/features/shared/presentation/blocs/service_locator.dart';
 
 class GoRouterNotifier extends ChangeNotifier {
-  final AuthBloc _authBloc = getIt<AuthBloc>();
+  final AuthBloc authBloc;
 
   AuthStatus _authStatus = AuthStatus.checking;
 
-  GoRouterNotifier() {
-    _authBloc.stream.listen((authState) {
+  GoRouterNotifier(this.authBloc) {
+    authBloc.stream.listen((authState) {
       authStatus = authState.authStatus;
     });
   }
@@ -20,3 +19,16 @@ class GoRouterNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+// import 'package:flutter/material.dart';
+
+// import 'package:teslo_shop/features/auth/presentation/blocs/auth/auth_bloc.dart';
+
+// class GoRouterNotifier extends ChangeNotifier {
+//   final AuthBloc authBloc;
+
+  // GoRouterNotifier(this.authBloc) {
+  //   authBloc.stream.listen((_) => notifyListeners());
+  // }
+
+  // AuthStatus get authStatus => authBloc.state.authStatus;
+// }

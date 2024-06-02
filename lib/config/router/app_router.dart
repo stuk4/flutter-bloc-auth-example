@@ -4,13 +4,14 @@ import 'package:teslo_shop/config/router/app_router_notifier.dart';
 import 'package:teslo_shop/features/auth/auth.dart';
 import 'package:teslo_shop/features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'package:teslo_shop/features/products/products.dart';
-import 'package:teslo_shop/features/shared/presentation/blocs/service_locator.dart';
 
-final _appRouter = GoRouter(
+GoRouter createRouter(AuthBloc authBloc) {
+  final routerNotifier = GoRouterNotifier(authBloc);
+
+  return GoRouter(
     initialLocation: '/splash',
-    refreshListenable: GoRouterNotifier(),
+    refreshListenable: routerNotifier,
     routes: [
-      ///* Auth Routes
       GoRoute(
         path: '/splash',
         builder: (context, state) => const CheckAuthStatusScreen(),
@@ -23,17 +24,15 @@ final _appRouter = GoRouter(
         path: '/register',
         builder: (context, state) => const RegisterScreen(),
       ),
-
-      ///* Product Routes
       GoRoute(
         path: '/',
         builder: (context, state) => const ProductsScreen(),
       ),
     ],
     redirect: (context, state) {
-      print(state.matchedLocation);
-      final authStatus = getIt<AuthBloc>().state.authStatus;
+      final authStatus = routerNotifier.authStatus;
       final isGoingTo = state.matchedLocation;
+
       if (isGoingTo == '/splash' && authStatus == AuthStatus.checking) {
         return null;
       }
@@ -53,10 +52,12 @@ final _appRouter = GoRouter(
       }
 
       return null;
-    });
+    },
+  );
+}
 
 class RouterCubit extends Cubit<GoRouter> {
-  RouterCubit() : super(_appRouter);
+  RouterCubit(GoRouter router) : super(router);
 
   void goBack() {
     state.pop();
