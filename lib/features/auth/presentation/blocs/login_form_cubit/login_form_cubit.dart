@@ -29,7 +29,9 @@ class LoginFormCubit extends Cubit<LoginFormState> {
   void onFormSubmit() async {
     _touchEveryField();
     if (!state.isValid) return;
+    emit(state.copyWith(isPosting: true));
     await loginUserCallback(state.email.value, state.password.value);
+    emit(state.copyWith(isPosting: false));
   }
 
   void _touchEveryField() {

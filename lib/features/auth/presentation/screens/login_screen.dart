@@ -103,12 +103,11 @@ class _LoginForm extends StatelessWidget {
                 width: double.infinity,
                 height: 60,
                 child: CustomFilledButton(
-                  text: 'Ingresar',
-                  buttonColor: Colors.black,
-                  onPressed: () {
-                    loginForm.onFormSubmit();
-                  },
-                )),
+                    text: 'Ingresar',
+                    buttonColor: Colors.black,
+                    onPressed: loginForm.state.isPosting
+                        ? null
+                        : loginForm.onFormSubmit)),
             const Spacer(flex: 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

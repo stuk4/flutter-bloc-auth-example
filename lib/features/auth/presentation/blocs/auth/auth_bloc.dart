@@ -36,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> loginUser(String email, String password) async {
-    await Future.delayed(const Duration(microseconds: 500));
+    await Future.delayed(const Duration(seconds: 1));
 
     try {
       final user = await authRepository.login(email, password);
