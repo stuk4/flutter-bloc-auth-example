@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:teslo_shop/config/config.dart';
 import 'package:teslo_shop/features/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'package:teslo_shop/features/products/presentation/blocs/blocs.dart';
 
 import 'package:teslo_shop/features/shared/presentation/blocs/blocs.dart';
 
@@ -18,8 +19,12 @@ class BlocsProviders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-      BlocProvider(create: (context) => getIt<AuthBloc>()),
-      BlocProvider(create: (context) => getIt<RouterCubit>())
+      BlocProvider(
+        create: (context) => getIt<AuthBloc>(),
+        lazy: false,
+      ),
+      BlocProvider(create: (context) => getIt<RouterCubit>()),
+      BlocProvider(create: (context) => getIt<ProductsCubit>())
     ], child: const MainApp());
   }
 }

@@ -7,4 +7,5 @@ abstract class ProductsDatasource {
   Future<List<Product>> searchProductByTerm(String term);
 
   Future<Product> createUpdateProduct(Map<String, dynamic> productLike);
+  void updateAccessToken(String newToken);
 }

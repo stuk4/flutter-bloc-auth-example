@@ -4,6 +4,10 @@ class ProductsRepositoryImpl implements ProductsRepository {
   final ProductsDatasource datasource;
 
   ProductsRepositoryImpl(this.datasource);
+  @override
+  void updateAccessToken(String newToken) {
+    datasource.updateAccessToken(newToken);
+  }
 
   @override
   Future<Product> createUpdateProduct(Map<String, dynamic> productLike) {

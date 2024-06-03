@@ -4,13 +4,25 @@ import 'package:teslo_shop/features/products/domain/domain.dart';
 import 'package:teslo_shop/features/products/infrastructure/mappers/product_mapper.dart';
 
 class ProductsDatasourceImpl extends ProductsDatasource {
-  late final Dio dio;
-  final String accessToken;
+  late Dio dio;
+  String _accessToken;
 
-  ProductsDatasourceImpl({required this.accessToken})
-      : dio = Dio(BaseOptions(
-            baseUrl: Envionment.apiUrl,
-            headers: {'Authorization': 'Bearer $accessToken'}));
+  ProductsDatasourceImpl({required String accessToken})
+      : _accessToken = accessToken {
+    _initializeDio();
+  }
+
+  void _initializeDio() {
+    dio = Dio(BaseOptions(
+        baseUrl: Envionment.apiUrl,
+        headers: {'Authorization': 'Bearer $_accessToken'}));
+  }
+
+  @override
+  void updateAccessToken(String newToken) {
+    _accessToken = newToken;
+    _initializeDio();
+  }
 
   @override
   Future<Product> createUpdateProduct(Map<String, dynamic> productLike) {
@@ -28,7 +40,7 @@ class ProductsDatasourceImpl extends ProductsDatasource {
   Future<List<Product>> getProductsByPage(
       {int limit = 10, int offset = 0}) async {
     final response =
-        await dio.get<List>('/api/products?limit=$limit&offset=$offset');
+        await dio.get<List>('/products?limit=$limit&offset=$offset');
     final List<Product> products = [];
     for (final product in response.data ?? []) {
       products.add(ProductMapper.jsonToEntity(product));
