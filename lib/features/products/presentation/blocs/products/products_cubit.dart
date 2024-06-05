@@ -48,7 +48,7 @@ class ProductsCubit extends Cubit<ProductsState> {
     emit(state.copyWith(
       isLoading: false,
       isLastPage: false,
-      offset: state.offset + state.limit,
+      offset: state.offset + 10,
       products: [...state.products, ...products],
     ));
   }

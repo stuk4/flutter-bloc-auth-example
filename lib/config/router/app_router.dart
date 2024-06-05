@@ -28,6 +28,12 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/',
         builder: (context, state) => const ProductsScreen(),
       ),
+      GoRoute(
+        path: '/product/:id',
+        builder: (context, state) => ProductScreen(
+          productId: state.pathParameters['id'] ?? 'no-id',
+        ),
+      ),
     ],
     redirect: (context, state) {
       final authStatus = routerNotifier.authStatus;
